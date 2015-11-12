@@ -8,7 +8,15 @@
 import scrapy
 
 
-class SchemecrawlerItem(scrapy.Item):
+class SchemeItem(scrapy.Item):
     # define the fields for your item here like:
     # name = scrapy.Field()
-    pass
+    department = scrapy.Field()
+    district = scrapy.Field()
+    name = scrapy.Field()
+    beneficiaries = scrapy.Field()
+    how_to_avail = scrapy.Field()
+    valid_from = scrapy.Field()
+    valid_till = scrapy.Field()
+    description = scrapy.Field()
+    
