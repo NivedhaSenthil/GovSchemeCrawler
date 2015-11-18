@@ -19,4 +19,8 @@ class SchemeItem(scrapy.Item):
     valid_from = scrapy.Field()
     valid_till = scrapy.Field()
     description = scrapy.Field()
+    eligible_age =scrapy.Field()
+    eligible_income = scrapy.Field()
+    eligible_community = scrapy.Field()
+    eligible_other_details = scrapy.Field()
     
