@@ -20,8 +20,9 @@ class SchemeSpider(scrapy.Spider):
            yield scrapy.Request(url, callback=self.parse_scheme_contents)
 
     def parse_scheme_contents(self,response):
+        item = SchemeItem()
         for sel in response.xpath("//div[contains(@class,'node_viewlist')]"):
-            item = SchemeItem()
+
             key = ''.join(sel.xpath("span[contains(@class,'left_column')]/text()").extract())
             value = ''.join(sel.xpath("span[contains(@class,'right_column')]/text()").extract())
 
@@ -49,7 +50,8 @@ class SchemeSpider(scrapy.Spider):
                 item['eligible_community'] = value
             if key == 'Other Details':
                 item['eligible_other_details'] = value
-            yield item
+
+        yield item
 
 
 
