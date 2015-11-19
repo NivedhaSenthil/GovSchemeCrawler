@@ -4,6 +4,7 @@ from schemeCrawler.items import SchemeItem
 
 class SchemeSpider(scrapy.Spider):
     name = "schemeSpider"
+    start_url = "http://www.tn.gov.in"
     allowed_domains = ["tn.gov.in"]
     start_urls = [
         "http://www.tn.gov.in/scheme"
@@ -13,11 +14,20 @@ class SchemeSpider(scrapy.Spider):
         for href in response.xpath('//p/a/@href'):
            url = response.urljoin(href.extract())
            yield scrapy.Request(url, callback=self.parse_dept_contents)
+        href = response.xpath("//a[contains(@title,'Go to next page')]/@href")
+        url = response.urljoin(self.start_url + "".join(href.extract()))
+        if url:
+            yield scrapy.Request(url, callback=self.parse)
+
 
     def parse_dept_contents(self, response):
         for href in response.xpath('//p/a/@href'):
-           url = response.urljoin(href.extract())
-           yield scrapy.Request(url, callback=self.parse_scheme_contents)
+            url = response.urljoin(href.extract())
+            yield scrapy.Request(url, callback=self.parse_scheme_contents)
+        href = response.xpath("//a[contains(@title,'Go to next page')]/@href")
+        url = response.urljoin(self.start_url + "".join(href.extract()))
+        if url:
+            yield scrapy.Request(url, callback=self.parse_dept_contents)
 
     def parse_scheme_contents(self,response):
         item = SchemeItem()
